@@ -18,5 +18,4 @@ COPY ./config/source.yaml /app/config/
 COPY --from=builder /proxypool /app/
 
 ENV TZ Asia/Shanghai
-EXPOSE 12580
 ENTRYPOINT ["/app/proxypool", "-d", "-c", "config/config.yaml"]

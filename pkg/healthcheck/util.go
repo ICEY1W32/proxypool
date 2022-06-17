@@ -10,7 +10,7 @@ import (
 	"time"
 
 	C "github.com/Dreamacro/clash/constant"
-	"github.com/One-Piecs/proxypool/pkg/proxy"
+	"github.com/ICEY1W32/proxypool/pkg/proxy"
 )
 
 // DO NOT EDIT. Copied from clash because it's an unexported function

@@ -7,13 +7,13 @@ import (
 
 	"github.com/google/gops/agent"
 
-	"github.com/One-Piecs/proxypool/pkg/geoIp"
+	"github.com/ICEY1W32/proxypool/pkg/geoIp"
 
-	"github.com/One-Piecs/proxypool/api"
-	"github.com/One-Piecs/proxypool/internal/app"
-	"github.com/One-Piecs/proxypool/internal/cron"
-	"github.com/One-Piecs/proxypool/internal/database"
-	"github.com/One-Piecs/proxypool/log"
+	"github.com/ICEY1W32/proxypool/api"
+	"github.com/ICEY1W32/proxypool/internal/app"
+	"github.com/ICEY1W32/proxypool/internal/cron"
+	"github.com/ICEY1W32/proxypool/internal/database"
+	"github.com/ICEY1W32/proxypool/log"
 )
 
 var (

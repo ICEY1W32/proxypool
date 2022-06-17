@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/One-Piecs/proxypool/pkg/geoIp"
+	"github.com/ICEY1W32/proxypool/pkg/geoIp"
 
 	"github.com/gammazero/workerpool"
 )

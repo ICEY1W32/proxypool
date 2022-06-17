@@ -12,8 +12,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/One-Piecs/proxypool/config"
-	"github.com/One-Piecs/proxypool/pkg/tool"
+	"github.com/ICEY1W32/proxypool/config"
+	"github.com/ICEY1W32/proxypool/pkg/tool"
 )
 
 var (
@@ -27,13 +27,19 @@ type Vmess struct {
 	AlterID        int               `yaml:"alterId" json:"alterId"`
 	Cipher         string            `yaml:"cipher" json:"cipher"`
 	Network        string            `yaml:"network,omitempty" json:"network,omitempty"`
-	WSPath         string            `yaml:"ws-path,omitempty" json:"ws-path,omitempty"`
 	ServerName     string            `yaml:"servername,omitempty" json:"servername,omitempty"`
-	WSHeaders      map[string]string `yaml:"ws-headers,omitempty" json:"ws-headers,omitempty"`
 	HTTPOpts       HTTPOptions       `yaml:"http-opts,omitempty" json:"http-opts,omitempty"`
 	HTTP2Opts      HTTP2Options      `yaml:"h2-opts,omitempty" json:"h2-opts,omitempty"`
 	TLS            bool              `yaml:"tls,omitempty" json:"tls,omitempty"`
 	SkipCertVerify bool              `yaml:"skip-cert-verify,omitempty" json:"skip-cert-verify,omitempty"`
+	WSOpts         WSOptions         `yaml:"ws-opts,omitempty" json:"ws-opts,omitempty"`
+	WSPath         string            `yaml:"ws-path,omitempty" json:"ws-path,omitempty"`
+	WSHeaders      map[string]string `yaml:"ws-headers,omitempty" json:"ws-headers,omitempty"`
+}
+
+type WSOptions struct {
+	Path    string            `yaml:"path,omitempty" json:"path,omitempty"`
+	Headers map[string]string `yaml:"headers,omitempty" json:"headers,omitempty"`
 }
 
 type HTTPOptions struct {
@@ -45,6 +51,19 @@ type HTTPOptions struct {
 type HTTP2Options struct {
 	Host []string `yaml:"host,omitempty" json:"host,omitempty"`
 	Path string   `yaml:"path,omitempty" json:"path,omitempty"` // 暂只处理一个Path
+}
+
+func (v *Vmess) CompatibilityFixes() {
+	if v.Network == "ws" {
+		if v.WSOpts.Path == "" {
+			v.WSOpts.Path = v.WSPath
+			v.WSPath = ""
+		}
+		if len(v.WSOpts.Headers) == 0 {
+			v.WSOpts.Headers = v.WSHeaders
+			v.WSHeaders = nil
+		}
+	}
 }
 
 func (v Vmess) Identifier() string {
@@ -85,7 +104,7 @@ func (v Vmess) ToSurge() string {
 	// node2 = vmess, server, port, username=, ws=true, ws-path=, ws-headers=
 	if v.Network == "ws" {
 		wsHeasers := ""
-		for k, v := range v.WSHeaders {
+		for k, v := range v.WSOpts.Headers {
 
 			// surge head v 多组分割要注意 ':'  ','
 			v = strings.ReplaceAll(v, "http://", "")
@@ -106,13 +125,9 @@ func (v Vmess) ToSurge() string {
 			}
 		}
 
-		wsPath := v.WSPath
-		if v.WSPath == "" {
-			wsPath = "/"
-		}
 
 		text := fmt.Sprintf("%s = vmess, %s, %d, username=%s, alterId=%d, ws=true, tls=%t, ws-path=%s, skip-cert-verify=%v",
-			v.Name, v.Server, v.Port, v.UUID, v.AlterID, v.TLS, wsPath, v.SkipCertVerify)
+			v.Name, v.Server, v.Port, v.UUID, v.AlterID, v.TLS, v.WSOpts.Path, v.SkipCertVerify)
 		if wsHeasers != "" {
 			// text += ", ws-headers=" + wsHeasers
 			text += fmt.Sprintf(`, ws-headers="%s|%s"`, wsHeasers, config.Config.V2WsHeaderUserAgent)
@@ -148,7 +163,7 @@ func (v Vmess) ToLoon() string {
 	if v.Network == "ws" {
 		text := fmt.Sprintf(`%s = vmess, %s, %d, %s, "%s", transport:%v, path:%s, over-tls:%v`,
 			v.Name, v.Server, v.Port, cipher, v.UUID,
-			v.Network, v.WSPath, v.TLS)
+			v.Network, v.WSOpts.Path, v.TLS)
 		if v.TLS {
 			text += ", tls-name:" + v.Server
 			text += fmt.Sprintf(", skip-cert-verify:%v", v.SkipCertVerify)
@@ -170,7 +185,7 @@ func (v Vmess) ToLoon() string {
 	} else {
 		text := fmt.Sprintf(`%s = vmess, %s, %d, %s, "%s", transport:%v, path:%s, over-tls:%v`,
 			v.Name, v.Server, v.Port, cipher, v.UUID,
-			v.Network, v.WSPath, v.TLS)
+			v.Network, v.WSOpts.Path, v.TLS)
 		if v.TLS {
 			text += fmt.Sprintf(", skip-cert-verify:%v", v.SkipCertVerify)
 		}
@@ -212,14 +227,14 @@ func (v Vmess) toLinkJson() vmessLinkJson {
 		Id:   v.UUID,
 		Aid:  strconv.Itoa(v.AlterID),
 		Net:  v.Network,
-		Path: v.WSPath,
+		Path: v.WSOpts.Path,
 		Host: v.ServerName,
 		V:    "2",
 	}
 	if v.TLS {
 		vj.Tls = "tls"
 	}
-	if host, ok := v.WSHeaders["HOST"]; ok && host != "" {
+	if host, ok := v.WSOpts.Headers["HOST"]; ok && host != "" {
 		vj.Host = host
 	}
 	return vj
@@ -341,10 +356,12 @@ func ParseVmessLink(link string) (*Vmess, error) {
 			Network:        network,
 			HTTPOpts:       httpOpt,
 			HTTP2Opts:      h2Opt,
-			WSPath:         path,
-			WSHeaders:      wsHeaders,
 			SkipCertVerify: true,
 			ServerName:     server,
+			WSOpts: WSOptions{
+				Path:    path,
+				Headers: wsHeaders,
+			},
 		}, nil
 	} else {
 		// V2rayN ref: https://github.com/2dust/v2rayN/wiki/%E5%88%86%E4%BA%AB%E9%93%BE%E6%8E%A5%E6%A0%BC%E5%BC%8F%E8%AF%B4%E6%98%8E(ver-2)
@@ -415,11 +432,13 @@ func ParseVmessLink(link string) (*Vmess, error) {
 			Network:        vmessJson.Net,
 			HTTPOpts:       httpOpt,
 			HTTP2Opts:      h2Opt,
-			WSPath:         vmessJson.Path,
-			WSHeaders:      wsHeaders,
 			ServerName:     vmessJson.Host,
 			TLS:            tls,
 			SkipCertVerify: true,
+			WSOpts: WSOptions{
+				Path:    vmessJson.Path,
+				Headers: wsHeaders,
+			},
 		}, nil
 	}
 }

@@ -12,7 +12,7 @@ import (
 
 	"github.com/Dreamacro/clash/adapter"
 
-	"github.com/One-Piecs/proxypool/pkg/proxy"
+	"github.com/ICEY1W32/proxypool/pkg/proxy"
 
 	"github.com/ivpusic/grpool"
 )

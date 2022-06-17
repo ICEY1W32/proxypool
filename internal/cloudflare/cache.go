@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/One-Piecs/proxypool/config"
+	"github.com/ICEY1W32/proxypool/config"
 	"github.com/cloudflare/cloudflare-go"
 )
 

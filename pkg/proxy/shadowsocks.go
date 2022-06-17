@@ -10,7 +10,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/One-Piecs/proxypool/pkg/tool"
+	"github.com/ICEY1W32/proxypool/pkg/tool"
 )
 
 // ErrorNotSSLink is an error type

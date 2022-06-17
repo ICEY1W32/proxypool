@@ -8,10 +8,10 @@ import (
 
 	"github.com/gammazero/workerpool"
 
-	"github.com/One-Piecs/proxypool/log"
+	"github.com/ICEY1W32/proxypool/log"
 
-	"github.com/One-Piecs/proxypool/pkg/proxy"
-	"github.com/One-Piecs/proxypool/pkg/tool"
+	"github.com/ICEY1W32/proxypool/pkg/proxy"
+	"github.com/ICEY1W32/proxypool/pkg/tool"
 )
 
 func init() {

@@ -3,14 +3,14 @@ package app
 import (
 	"errors"
 
-	"github.com/One-Piecs/proxypool/log"
+	"github.com/ICEY1W32/proxypool/log"
 
-	"github.com/One-Piecs/proxypool/internal/cache"
+	"github.com/ICEY1W32/proxypool/internal/cache"
 
 	"github.com/ghodss/yaml"
 
-	"github.com/One-Piecs/proxypool/config"
-	"github.com/One-Piecs/proxypool/pkg/getter"
+	"github.com/ICEY1W32/proxypool/config"
+	"github.com/ICEY1W32/proxypool/pkg/getter"
 )
 
 var Getters = make([]getter.Getter, 0)

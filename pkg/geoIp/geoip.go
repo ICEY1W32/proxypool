@@ -8,10 +8,10 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/One-Piecs/proxypool/config"
-	"github.com/One-Piecs/proxypool/log"
+	"github.com/ICEY1W32/proxypool/config"
+	"github.com/ICEY1W32/proxypool/log"
 
-	// bingeoip "github.com/One-Piecs/proxypool/internal/bindata/geoip"
+	// bingeoip "github.com/ICEY1W32/proxypool/internal/bindata/geoip"
 
 	"github.com/oschwald/geoip2-golang"
 )

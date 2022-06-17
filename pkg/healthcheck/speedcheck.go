@@ -16,9 +16,9 @@ import (
 	"github.com/Dreamacro/clash/adapter"
 
 	C "github.com/Dreamacro/clash/constant"
-	"github.com/One-Piecs/proxypool/config"
-	"github.com/One-Piecs/proxypool/log"
-	"github.com/One-Piecs/proxypool/pkg/proxy"
+	"github.com/ICEY1W32/proxypool/config"
+	"github.com/ICEY1W32/proxypool/log"
+	"github.com/ICEY1W32/proxypool/pkg/proxy"
 	"github.com/ivpusic/grpool"
 )
 

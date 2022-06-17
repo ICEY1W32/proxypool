@@ -5,7 +5,7 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/One-Piecs/proxypool/pkg/geoIp"
+	"github.com/ICEY1W32/proxypool/pkg/geoIp"
 )
 
 /* Base implements interface Proxy. It's the basic proxy struct. Vmess etc extends Base*/
@@ -135,6 +135,7 @@ func ParseProxyFromClashProxy(p map[string]interface{}) (proxy Proxy, err error)
 		if err != nil {
 			return nil, err
 		}
+		proxy.CompatibilityFixes()
 		return &proxy, nil
 	case "trojan":
 		var proxy Trojan

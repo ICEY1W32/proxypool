@@ -8,16 +8,16 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/One-Piecs/proxypool/log"
-	"github.com/One-Piecs/proxypool/pkg/geoIp"
-	"github.com/One-Piecs/proxypool/pkg/provider"
+	"github.com/ICEY1W32/proxypool/log"
+	"github.com/ICEY1W32/proxypool/pkg/geoIp"
+	"github.com/ICEY1W32/proxypool/pkg/provider"
 
-	"github.com/One-Piecs/proxypool/internal/app"
-	// "github.com/One-Piecs/proxypool/internal/bindata"
+	"github.com/ICEY1W32/proxypool/internal/app"
+	// "github.com/ICEY1W32/proxypool/internal/bindata"
 	"github.com/arl/statsviz"
 
-	"github.com/One-Piecs/proxypool/config"
-	appcache "github.com/One-Piecs/proxypool/internal/cache"
+	"github.com/ICEY1W32/proxypool/config"
+	appcache "github.com/ICEY1W32/proxypool/internal/cache"
 	"github.com/gin-contrib/cache"
 	"github.com/gin-contrib/cache/persistence"
 	"github.com/gin-contrib/pprof"

@@ -54,7 +54,7 @@ func (ssr ShadowsocksR) String() string {
 func (ssr ShadowsocksR) ToClash() string {
 	theString := ssr.String()
 	if len(theString) > 0 {
-		return "- " + theString
+		return "  - " + theString
 	} else {
 		return ""
 	}

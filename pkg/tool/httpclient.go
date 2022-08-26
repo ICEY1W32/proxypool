@@ -30,7 +30,7 @@ var defaultClient = &http.Client{
 func init() {
 	// httpClient = &HttpClient{http.DefaultClient}
 	httpClient = &HttpClient{defaultClient}
-	httpClient.Timeout = time.Second * 120
+	httpClient.Timeout = time.Second * 60
 }
 
 func GetHttpClient() *HttpClient {

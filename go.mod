@@ -1,6 +1,6 @@
 // +heroku goVersion go1.14
 
-module github.com/One-Piecs/proxypool
+module github.com/ICEY1W32/proxypool
 
 go 1.18
 

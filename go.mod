@@ -4,8 +4,6 @@ module github.com/ICEY1W32/proxypool
 
 go 1.18
 
-replace github.com/Dreamacro/clash => ../clash
-
 require (
 	github.com/Dreamacro/clash v1.11.8
 	github.com/arl/statsviz v0.4.1
